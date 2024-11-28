@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autos;
 
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
 
@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Elevator;
+import org.firstinspires.ftc.teamcode.Grabber;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
@@ -54,7 +56,7 @@ public class LeftSideAuto extends LinearOpMode {
 
         TrajectorySequence traj4 = drive.trajectorySequenceBuilder(traj3.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(3, 5, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .forward(6)
+                .forward(4)
                 .build();
 
         TrajectorySequence traj5 = drive.trajectorySequenceBuilder(traj4.end())

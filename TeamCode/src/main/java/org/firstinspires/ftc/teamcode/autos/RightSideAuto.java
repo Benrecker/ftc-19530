@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autos;
 
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
 
@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Elevator;
+import org.firstinspires.ftc.teamcode.Grabber;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
@@ -35,7 +37,7 @@ public class RightSideAuto extends LinearOpMode {
 
         TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(9.32, -62.90, Math.toRadians(90.00)))
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(30, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineTo(new Vector2d(3.01, -33.25))
+                .lineTo(new Vector2d(3.01, -32.25))
                 .build();
 
 
@@ -117,7 +119,8 @@ public class RightSideAuto extends LinearOpMode {
             } else if (state == 5) {
                 if (!drive.isBusy()) {
                     elevator.setHeight(2000);
-                    if (elevator.atTarget()) {
+                    timer2.start();
+                    if (elevator.atTarget() && timer2.done()) {
                         elevator.setHeight(1500);
                         timer.start();
                         if (timer.done()) {
