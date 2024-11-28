@@ -119,7 +119,7 @@ public class Elevator {
     }
 
     public void setHookToAttach() {
-        PARAMS.hook_target = 0.325;
+        PARAMS.hook_target = 0.4;
     }
 
     /////////////////////////////////////////////////////////////

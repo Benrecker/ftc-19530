@@ -21,8 +21,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "Basic 2 part elevator clips")
-public class RightSideAuto extends LinearOpMode {
+@Autonomous(name = "2 part specimen and push blue")
+public class RightSideAutoB extends LinearOpMode {
     private Elevator elevator;
     private Grabber grabber;
 
@@ -48,16 +48,25 @@ public class RightSideAuto extends LinearOpMode {
 
 
         TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
-                .lineTo(new Vector2d(35.85, -67.85))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(10, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
+                .lineTo(new Vector2d(37.03, -69.85))
                 .build();
 
         TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
-                .lineToLinearHeading(new Pose2d(2.80, -33.49, Math.toRadians(90.00)))
+                .lineTo(new Vector2d(7.52, -53.11))
+                .lineToLinearHeading(new Pose2d(10.67, -35.41, Math.toRadians(90.00)))
                 .build();
 
+
         TrajectorySequence traj4 = drive.trajectorySequenceBuilder(traj3.end())
-                .lineTo(new Vector2d(40.57, -62.56))
+                .lineTo(new Vector2d(10.67, -32.25))
                 .build();
+
+
+        TrajectorySequence traj5 = drive.trajectorySequenceBuilder(traj4.end())
+                .lineTo(new Vector2d(45.00, -62.41))
+                .build();
+
 
 
         drive.setPoseEstimate(trajectory0.start());
@@ -101,48 +110,44 @@ public class RightSideAuto extends LinearOpMode {
                     drive.followTrajectorySequenceAsync(traj2);
                     state++;
                 }
-
             } else if (state == 3) {
                 if (!drive.isBusy()) {
                     elevator.setHeight(200);
                     state++;
                     timer.start();
-
-
                 }
             } else if (state == 4) {
                 if (timer.done()) {
                     drive.followTrajectorySequenceAsync(traj3);
                     state++;
-
+                    timer.start();
                 }
             } else if (state == 5) {
-                if (!drive.isBusy()) {
+                if (!drive.isBusy() && timer.done()) {
                     elevator.setHeight(2000);
-                    timer2.start();
-                    if (elevator.atTarget() && timer2.done()) {
-                        elevator.setHeight(1500);
-                        timer.start();
-                        if (timer.done()) {
-                            drive.followTrajectorySequenceAsync(traj4);
-                        }
-                        state++;
-                    }
+                    state++;
+                    timer.start();
+                }
+            }else if (state == 6) {
+                if (elevator.atTarget() && timer.done()) {
+                    drive.followTrajectorySequenceAsync(traj4);
+                    state++;
+                    timer.start();
+                }
+           } else if (state == 7) {
+              if (!drive.isBusy() && timer.done()) {
+                  elevator.setHeight(1500);
+                  state++;
+               }
 
-//            } else if (state == 6) {
-//                if (!drive.isBusy() && timer.done()) {
-//                    state++;
-//                    grabber.armToInside();
-//                    grabber.intakeStop();
-//                    grabber.slideToInside();
-//                    timer.start();
-//                }
-//            } else if (state == 7) {
-//                if (timer.done()) {
-//                    state++;
-//                    drive.followTrajectorySequenceAsync(traj5);
-//                    elevator.setHeight(4000);
-//                }
+            } else if (state == 8) {
+                if (elevator.atTarget()) {
+                    drive.followTrajectorySequenceAsync(traj5);
+                }
+                if (!drive.isBusy()) {
+                    elevator.setHeight(0);
+                }
+            }
 //            } else if (state == 8) {
 //                if (!drive.isBusy()) {
 //                    state++;
@@ -170,17 +175,18 @@ public class RightSideAuto extends LinearOpMode {
 //                    state++;
 //                    drive.followTrajectorySequenceAsync(traj1);
 //                }
-                }
 
 
-                Pose2d poseEstimate = drive.getPoseEstimate();
-                telemetry.addData("finalX", poseEstimate.getX());
-                telemetry.addData("finalY", poseEstimate.getY());
-                telemetry.addData("finalHeading", poseEstimate.getHeading());
-                telemetry.addData("state", state);
-                telemetry.update();
+            Pose2d poseEstimate = drive.getPoseEstimate();
+            telemetry.addData("finalX", poseEstimate.getX());
+            telemetry.addData("finalY", poseEstimate.getY());
+            telemetry.addData("finalHeading", poseEstimate.getHeading());
+            telemetry.addData("state", state);
+            telemetry.update();
 
-            }
         }
     }
 }
+
+
+

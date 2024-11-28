@@ -97,9 +97,10 @@ public class teleop8081 extends OpMode {
         } else if (gamepad2.dpad_right) {
             Elevator.PARAMS.elevator_enable_auto_reset = false;
             elevator.setHeight(1800);
-            elevator.setHookToAttach();
+
         } else if (gamepad2.dpad_left) {
             Elevator.PARAMS.elevator_enable_auto_reset = false;
+            elevator.setHookToAttach();
             elevator.setHeight(1600);
             grabber.slideToPercent(0.15);
         } else if (gamepad2.dpad_down) {
@@ -107,7 +108,7 @@ public class teleop8081 extends OpMode {
             elevator.setHeight(0);
         }
 
-        elevator.setWenchPower(gamepad2.left_stick_y);
+        elevator.setWenchPower(-gamepad2.left_stick_y);
 
         grabber.run(packet);
         elevator.run(packet);
@@ -120,6 +121,7 @@ public class teleop8081 extends OpMode {
         telemetry.addData("x", poseEstimate.getX());
         telemetry.addData("y", poseEstimate.getY());
         telemetry.addData("heading", poseEstimate.getHeading());
+        telemetry.addData("whats up brother", elevator.servo_hook_left.getPosition());
         telemetry.update();
 
         packet.fieldOverlay().setStroke("#3F51B5");
