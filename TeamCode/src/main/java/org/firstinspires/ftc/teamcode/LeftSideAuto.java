@@ -54,7 +54,7 @@ public class LeftSideAuto extends LinearOpMode {
 
         TrajectorySequence traj4 = drive.trajectorySequenceBuilder(traj3.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(3, 5, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .forward(8)
+                .forward(6)
                 .build();
 
         TrajectorySequence traj5 = drive.trajectorySequenceBuilder(traj4.end())
