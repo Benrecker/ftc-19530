@@ -46,13 +46,14 @@ public class fourboxbutterR extends LinearOpMode {
 
         TrajectorySequence trajdriveforward = drive.trajectorySequenceBuilder(trajectory0.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(5, 7, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .back(4)
+                .back(2.5)
                 .build();
+
         //turn robot to block 1
 
         TrajectorySequence trajpickupB1 = drive.trajectorySequenceBuilder(trajdriveforward.end())
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-53.26, -51.64, Math.toRadians(82.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
+                .lineToLinearHeading(new Pose2d(-53.26, -51.64, Math.toRadians(92)))
                 .build();
 
 
@@ -64,7 +65,7 @@ public class fourboxbutterR extends LinearOpMode {
 
         TrajectorySequence trajpickupB2 = drive.trajectorySequenceBuilder(trajdriveforward.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-59.46, -50.90, Math.toRadians(90.00)))
+                .lineToLinearHeading(new Pose2d(-59.46, -50.90, Math.toRadians(100)))
                 .build();
 
         TrajectorySequence trajbeforeforwardb2 = drive.trajectorySequenceBuilder(trajpickupB2.end())
@@ -77,12 +78,12 @@ public class fourboxbutterR extends LinearOpMode {
 
         TrajectorySequence trajpickupB3 = drive.trajectorySequenceBuilder(trajdriveforward.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-57.69, -50.75, Math.toRadians(118.84)))
+                .lineToLinearHeading(new Pose2d(-57.69, -50.75, Math.toRadians(123.0)))
                 .build();
 
         TrajectorySequence trajbeforeforwardb3 = drive.trajectorySequenceBuilder(trajpickupB3.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-54.74, -55.18, Math.toRadians(45.00)))//position that we will go to after every pick up
+                .lineToLinearHeading(new Pose2d(-54.74, -55.18, Math.toRadians(78)))//position that we will go to after every pick up
                 .build();
 
         TrajectorySequence trajpark = drive.trajectorySequenceBuilder(trajdriveforward.end())
@@ -103,6 +104,8 @@ public class fourboxbutterR extends LinearOpMode {
 
         Timing.Timer timer = new Timing.Timer(1);
         Timing.Timer timer2 = new Timing.Timer(1 / 2);
+        Timing.Timer timer3 = new Timing.Timer(3/2);
+
 
 
         while (opModeIsActive() && !isStopRequested()) {
@@ -157,7 +160,7 @@ public class fourboxbutterR extends LinearOpMode {
                 if (!drive.isBusy() && timer.done()) {
                     grabber.armToFloor();
                     grabber.intakeIn();
-                    grabber.slideToOutside();
+                    grabber.slideToPercent(.6);
                     timer.start();
                     state++;
                 }
@@ -167,12 +170,12 @@ public class fourboxbutterR extends LinearOpMode {
                     grabber.armToInside();
                     grabber.slideToInside();
                     grabber.intakeStop();
-                    timer2.start();
+                    timer.start();
                     state++;
                 }
             }
             else if (state == 7) {
-                if (!drive.isBusy() && timer2.done()) {
+                if (!drive.isBusy() && timer.done()) {
                     elevator.setHeight(4000);
                     state++;
                 }
@@ -180,10 +183,10 @@ public class fourboxbutterR extends LinearOpMode {
                 if (elevator.atTarget()) {
                     drive.followTrajectorySequenceAsync(trajdriveforward);
                     state++;
-                    timer2.start();
+                    timer.start();
                 }
             } else if (state == 9) {
-                if (!drive.isBusy() && timer2.done()) {
+                if (!drive.isBusy() && timer.done()) {
                     grabber.intakeOut();
                     timer.start();
                     state++;
@@ -196,7 +199,7 @@ public class fourboxbutterR extends LinearOpMode {
                     timer.start();
                 }
             } else if (state == 11) {
-                if (!drive.isBusy() && elevator.atTarget(1000)) {
+                if (!drive.isBusy() && elevator.atTarget(2500)) {
                     drive.followTrajectorySequenceAsync(trajpickupB2);
                     timer.start();
                     state++;
@@ -205,7 +208,7 @@ public class fourboxbutterR extends LinearOpMode {
                 if (!drive.isBusy() && timer.done()) {
                     grabber.armToFloor();
                     grabber.intakeIn();
-                    grabber.slideToOutside();
+                    grabber.slideToPercent(0.5);
                     timer.start();
                     state++;
                 }
@@ -214,7 +217,7 @@ public class fourboxbutterR extends LinearOpMode {
                     drive.followTrajectorySequenceAsync(trajbeforeforwardb2);
                     grabber.armToInside();
                     grabber.slideToInside();
-                    grabber.intakeStop();
+                    grabber.intakeIn();
                     timer.start();
                     state++;
                 }
@@ -226,6 +229,7 @@ public class fourboxbutterR extends LinearOpMode {
             }else if (state == 15) {
                 if (elevator.atTarget()) {
                     drive.followTrajectorySequenceAsync(trajdriveforward);
+                    grabber.intakeStop();
                     state++;
                 }
             }else if (state == 16) {
@@ -239,10 +243,9 @@ public class fourboxbutterR extends LinearOpMode {
                     elevator.setHeight(0);
                     grabber.intakeStop();
                     state++;
-                    timer2.start();
                 }
             } else if (state == 18) {
-                if (!drive.isBusy() && elevator.atTarget(1000)) {
+                if (!drive.isBusy() && elevator.atTarget(2500)) {
                     drive.followTrajectorySequenceAsync(trajpickupB3);
                     timer.start();
                     state++;
@@ -251,46 +254,46 @@ public class fourboxbutterR extends LinearOpMode {
                 if (!drive.isBusy() && timer.done()) {
                     grabber.armToFloor();
                     grabber.intakeIn();
-                    grabber.slideToOutside();
-                    timer2.start();
+                    grabber.slideToPercent(0.75);
+                    timer.start();
                     state++;
                 }
             }else if (state == 20) {
-                if (timer2.done()) {
+                if (timer.done() && (!drive.isBusy())) {
                     drive.followTrajectorySequenceAsync(trajbeforeforwardb3);
                     grabber.armToInside();
                     grabber.slideToInside();
-                    grabber.intakeStop();
+                    grabber.intakeIn();
                     timer.start();
                     state++;
                 }
             }else if (state == 21) {
                 if (!drive.isBusy() && timer.done()){
-                    elevator.setHeight(4000);
-                    state++;
-                }
-            }else if (state == 22) {
-                if (elevator.atTarget()) {
-                    drive.followTrajectorySequenceAsync(trajdriveforward);
-                    state++;
-                }
-            }else if (state == 23) {
-                if  (!drive.isBusy()) {
                     grabber.intakeOut();
                     state++;
-                    timer.start();
                 }
-            }else if (state == 24) {
-                if (timer.done()) {
-                    elevator.setHeight(0);
-                    grabber.intakeStop();
-                    state++;
-                    timer2.start();
-                }
-            }else if (state == 25) {
-                if (timer2.done()) {
-                    drive.followTrajectorySequenceAsync(trajpark);
-                }
+//            }else if (state == 22) {
+//                if (elevator.atTarget()) {
+//                    drive.followTrajectorySequenceAsync(trajdriveforward);
+//                    state++;
+//                }
+//            }else if (state == 23) {
+//                if  (!drive.isBusy()) {
+//                    grabber.intakeOut();
+//                    state++;
+//                    timer.start();
+//                }
+//            }else if (state == 24) {
+//                if (timer.done()) {
+//                    elevator.setHeight(0);
+//                    grabber.intakeStop();
+//                    state++;
+//                    timer2.start();
+//                }
+//            }else if (state == 25) {
+//                if (timer2.done()) {
+//                    drive.followTrajectorySequenceAsync(trajpark);
+//                }
             }
         }
     }

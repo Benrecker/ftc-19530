@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  */
 @Config
 @Autonomous(name = "2 part specimen and push blue")
-public class RightSideAutoB extends LinearOpMode {
+public class twopartspecimenpushBlueSide extends LinearOpMode {
     private Elevator elevator;
     private Grabber grabber;
 
@@ -64,7 +64,11 @@ public class RightSideAutoB extends LinearOpMode {
 
 
         TrajectorySequence traj5 = drive.trajectorySequenceBuilder(traj4.end())
-                .lineTo(new Vector2d(45.00, -62.41))
+                .lineTo(new Vector2d(0.00, -43.00))
+                .lineToSplineHeading(new Pose2d(41.00, -36.00, Math.toRadians(270.00)))
+                .lineTo(new Vector2d(45.00, -8.00))
+                .lineTo(new Vector2d(55.00, -62.00))
+                .lineTo(new Vector2d(40.00, -8.00))
                 .build();
 
 
@@ -137,22 +141,21 @@ public class RightSideAutoB extends LinearOpMode {
            } else if (state == 7) {
               if (!drive.isBusy() && timer.done()) {
                   elevator.setHeight(1500);
+                  timer.start();
                   state++;
                }
-
             } else if (state == 8) {
-                if (elevator.atTarget()) {
+                if (timer.done()) {
                     drive.followTrajectorySequenceAsync(traj5);
+                    state++;
+                    timer.start();
                 }
-                if (!drive.isBusy()) {
+            }else if (state == 9) {
+                if (timer.done()) {
                     elevator.setHeight(0);
                 }
             }
-//            } else if (state == 8) {
-//                if (!drive.isBusy()) {
-//                    state++;
-//                    drive.followTrajectorySequenceAsync(traj1);
-//                }
+
 //            } else if (state == 9) {
 //                if (!drive.isBusy()) {
 //                    grabber.intakeOut();
