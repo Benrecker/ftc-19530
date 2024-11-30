@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  */
 @Config
 @Autonomous(name = "2 part specimen and push blue")
-public class twopartspecimenpushBlueSide extends LinearOpMode {
+public class twopartspecimenpushBlue extends LinearOpMode {
     private Elevator elevator;
     private Grabber grabber;
 

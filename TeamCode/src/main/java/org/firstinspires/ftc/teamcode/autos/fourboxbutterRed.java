@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  */
 @Config
 @Autonomous(name = "4 box butter red")
-public class fourboxbutterR extends LinearOpMode {
+public class fourboxbutterRed extends LinearOpMode {
     private Elevator elevator;
     private Grabber grabber;
 
@@ -33,6 +33,16 @@ public class fourboxbutterR extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         elevator = new Elevator(hardwareMap);
         grabber = new Grabber(hardwareMap);
+
+
+        //WHEN GETTING TO COMP, COME HERE
+        //run auto and if things need to be changed just go the traj that needs to be changed.
+        //If its not driving far enough on the drop, go to "trajdriveforawrd" and change the distance.
+        //all of the angles may need to be changed, when robot is facing the oppsite the bucket, that is 0 degrees
+        //so if the angle is under shooting, add degrees, oppsite for over shooting.
+
+        //corner to left is (-62,-62). if you need to change x, y vaules
+
 
 
         //in front of box traj
@@ -46,31 +56,31 @@ public class fourboxbutterR extends LinearOpMode {
 
         TrajectorySequence trajdriveforward = drive.trajectorySequenceBuilder(trajectory0.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(5, 7, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .back(2.5)
+                .back(2.5) //distance when dropping
                 .build();
 
         //turn robot to block 1
 
         TrajectorySequence trajpickupB1 = drive.trajectorySequenceBuilder(trajdriveforward.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-53.26, -51.64, Math.toRadians(92)))
+                .lineToLinearHeading(new Pose2d(-53.26, -51.64, Math.toRadians(92))) //may need to change this angle
                 .build();
 
 
         TrajectorySequence trajbeforeforwardb1 = drive.trajectorySequenceBuilder(trajpickupB1.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-54.74, -55.18, Math.toRadians(45.00)))//position that we will go to after every pick up
+                .lineToLinearHeading(new Pose2d(-54.74, -55.18, Math.toRadians(45.00)))
                 .build();
         //turn robot to block 2
 
         TrajectorySequence trajpickupB2 = drive.trajectorySequenceBuilder(trajdriveforward.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-59.46, -50.90, Math.toRadians(100)))
+                .lineToLinearHeading(new Pose2d(-59.46, -50.90, Math.toRadians(100))) //may need to change this angle
                 .build();
 
         TrajectorySequence trajbeforeforwardb2 = drive.trajectorySequenceBuilder(trajpickupB2.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-54.74, -55.18, Math.toRadians(45.00)))//position that we will go to after every pick up
+                .lineToLinearHeading(new Pose2d(-54.74, -55.18, Math.toRadians(45.00)))
                 .build();
 
         //turn robot to block 3
@@ -78,18 +88,13 @@ public class fourboxbutterR extends LinearOpMode {
 
         TrajectorySequence trajpickupB3 = drive.trajectorySequenceBuilder(trajdriveforward.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-57.69, -50.75, Math.toRadians(123.0)))
+                .lineToLinearHeading(new Pose2d(-57.69, -50.75, Math.toRadians(123.0))) //may need to change this angle
                 .build();
 
         TrajectorySequence trajbeforeforwardb3 = drive.trajectorySequenceBuilder(trajpickupB3.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-54.74, -55.18, Math.toRadians(78)))//position that we will go to after every pick up
+                .lineToLinearHeading(new Pose2d(-54.74, -55.18, Math.toRadians(78)))
                 .build();
-
-        TrajectorySequence trajpark = drive.trajectorySequenceBuilder(trajdriveforward.end())
-                .splineTo(new Vector2d(-26.11, -10.92), Math.toRadians(-1.19))
-                .build();
-
 
 
         drive.setPoseEstimate(trajectory0.start());
