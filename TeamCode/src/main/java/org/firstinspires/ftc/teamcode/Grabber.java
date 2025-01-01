@@ -18,15 +18,15 @@ public class Grabber {
     ServoImplEx servo_slide_right;
     ServoImplEx servo_slide_left;
 
-    CRServo servo_intake_left;
-    CRServo servo_intake_right;
+    CRServo servo_intake;
+    ServoImplEx servo_viper_clamp;
 
     public Grabber(HardwareMap hardwareMap) {
         servo_arm_left = hardwareMap.get(ServoImplEx.class, "servoWristLeft");
         servo_arm_right = hardwareMap.get(ServoImplEx.class, "servoWristRight");
 
-        servo_intake_right = hardwareMap.get(CRServo.class, "servoIntakeLeft");
-        servo_intake_left = hardwareMap.get(CRServo.class, "servoIntakeRight");
+        servo_viper_clamp = hardwareMap.get(ServoImplEx.class, "servoIntakeLeft");
+        servo_intake = hardwareMap.get(CRServo.class, "servoIntakeRight");
 
         servo_slide_right = hardwareMap.get(ServoImplEx.class, "servoSlideRight");
         servo_slide_left = hardwareMap.get(ServoImplEx.class, "servoSlideLeft");
@@ -35,7 +35,7 @@ public class Grabber {
 
         servo_arm_left.setDirection(Servo.Direction.REVERSE);
 
-        servo_intake_right.setDirection(DcMotorSimple.Direction.REVERSE);
+        servo_viper_clamp.setDirection(Servo.Direction.REVERSE);
 
         servo_slide_left.setDirection(Servo.Direction.REVERSE);
 
@@ -47,6 +47,8 @@ public class Grabber {
         servo_slide_left.setPwmEnable();
         servo_slide_right.setPwmEnable();
 
+        servo_viper_clamp.setPwmEnable();
+
         ///////////////////////////////////
 
         servo_slide_left.setPosition(PARAMS.slide_goal);
@@ -55,14 +57,16 @@ public class Grabber {
         servo_arm_left.setPosition(PARAMS.arm_goal);
         servo_arm_right.setPosition(PARAMS.arm_goal);
 
-        servo_intake_right.setPower(PARAMS.intake_power);
-        servo_intake_left.setPower(PARAMS.intake_power);
+        servo_viper_clamp.setPosition(PARAMS.clamp_goal);
+        servo_intake.setPower(PARAMS.intake_power);
+
+
     }
 
     ////////////////////////////////////////////////////////////////////////
 
     public void intakeOut() {
-        PARAMS.intake_power = 1.0;
+        PARAMS.intake_power = 0.5;
     }
 
     public void intakeStop() {
@@ -71,6 +75,10 @@ public class Grabber {
 
     public void intakeIn() {
         PARAMS.intake_power = -1.0;
+    }
+
+    public void intakeInSlow() {
+        PARAMS.intake_power = -0.3;
     }
 
     public void intakeSetPower(double power) {
@@ -111,6 +119,11 @@ public class Grabber {
         PARAMS.slide_goal = PARAMS.pose_slide_out;
     }
 
+
+    public void clamp_on(){ PARAMS.clamp_goal = PARAMS.pose_viper_off;}
+
+    public void clamp_off() {PARAMS.clamp_goal = PARAMS.pose_viper_on;}
+
     /**
      * Control the slide by providing a percent where 0% is inside and 100% is out
      * @param percent The percent to travel to
@@ -128,8 +141,8 @@ public class Grabber {
         servo_arm_left.setPosition(PARAMS.arm_goal);
         servo_arm_right.setPosition(PARAMS.arm_goal);
 
-        servo_intake_right.setPower(PARAMS.intake_power);
-        servo_intake_left.setPower(PARAMS.intake_power);
+        servo_intake.setPower(PARAMS.intake_power);
+        servo_viper_clamp.setPosition(PARAMS.clamp_goal);
     }
 
     public void run(TelemetryPacket packet) {
@@ -140,8 +153,8 @@ public class Grabber {
         packet.put("grabber_slide_right", servo_slide_right.getPosition());
         packet.put("grabber_arm_left", servo_arm_left.getPosition());
         packet.put("grabber_arm_right", servo_arm_right.getPosition());
-        packet.put("grabber_intake_left", servo_intake_left.getPower());
-        packet.put("grabber_intake_right", servo_intake_right.getPower());
+        //packet.put("grabber_intake_left", servo_intake_left.getPower());
+        //packet.put("grabber_intake_right", servo_intake_right.getPower());
     }
 
     ////////////////////////////////////////////////////////////////////////
@@ -159,9 +172,15 @@ public class Grabber {
 
         public double pose_arm_prepare_hook = 0.45;
         public double pose_arm_hook = 0.68  ;
-        public double pose_arm_floor = 0.33;
+        public double pose_arm_floor = 0.30;
 
-        public double pose_slide_out = 0.185; //old value was 0.175
+        public double pose_viper_on = 0;
+
+        public double pose_viper_off = 0.27;
+
+        public double clamp_goal = pose_viper_off;
+
+        public double pose_slide_out = 0.215; //old value was 0.175
         public double pose_slide_in = 0.0;
 
         public double arm_goal = pose_arm_inside;

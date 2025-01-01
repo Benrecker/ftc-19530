@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autos;
+package org.firstinspires.ftc.teamcode.oldautos;
 
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
 
@@ -6,9 +6,9 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -21,8 +21,9 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "4 box butter blue")
-public class fourboxbutterBlue extends LinearOpMode {
+@Disabled
+@Autonomous(name = "4 box butter red")
+public class oldfourboxbutterRed extends LinearOpMode {
     private Elevator elevator;
     private Grabber grabber;
 
@@ -35,7 +36,6 @@ public class fourboxbutterBlue extends LinearOpMode {
         grabber = new Grabber(hardwareMap);
 
 
-
         //WHEN GETTING TO COMP, COME HERE
         //run auto and if things need to be changed just go the traj that needs to be changed.
         //If its not driving far enough on the drop, go to "trajdriveforawrd" and change the distance.
@@ -43,8 +43,6 @@ public class fourboxbutterBlue extends LinearOpMode {
         //so if the angle is under shooting, add degrees, oppsite for over shooting.
 
         //corner to left is (-62,-62). if you need to change x, y vaules
-
-
 
 
 
@@ -59,14 +57,14 @@ public class fourboxbutterBlue extends LinearOpMode {
 
         TrajectorySequence trajdriveforward = drive.trajectorySequenceBuilder(trajectory0.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(5, 7, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .back(3.5) //distance when dropping
+                .back(2.5) //distance when dropping
                 .build();
 
         //turn robot to block 1
 
         TrajectorySequence trajpickupB1 = drive.trajectorySequenceBuilder(trajdriveforward.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-53.26, -51.64, Math.toRadians(92)))//this is the angle that may need to be changed
+                .lineToLinearHeading(new Pose2d(-53.26, -51.64, Math.toRadians(92))) //may need to change this angle
                 .build();
 
 
@@ -78,7 +76,7 @@ public class fourboxbutterBlue extends LinearOpMode {
 
         TrajectorySequence trajpickupB2 = drive.trajectorySequenceBuilder(trajdriveforward.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-59.46, -50.90, Math.toRadians(100)))//this is the angle that may need to be changed
+                .lineToLinearHeading(new Pose2d(-59.46, -50.90, Math.toRadians(100))) //may need to change this angle
                 .build();
 
         TrajectorySequence trajbeforeforwardb2 = drive.trajectorySequenceBuilder(trajpickupB2.end())
@@ -91,15 +89,13 @@ public class fourboxbutterBlue extends LinearOpMode {
 
         TrajectorySequence trajpickupB3 = drive.trajectorySequenceBuilder(trajdriveforward.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineToLinearHeading(new Pose2d(-57.69, -50.75, Math.toRadians(123.0)))//this is the angle that may need to be changed
+                .lineToLinearHeading(new Pose2d(-57.69, -50.75, Math.toRadians(123.0))) //may need to change this angle
                 .build();
 
         TrajectorySequence trajbeforeforwardb3 = drive.trajectorySequenceBuilder(trajpickupB3.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(35, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
                 .lineToLinearHeading(new Pose2d(-54.74, -55.18, Math.toRadians(78)))
                 .build();
-
-
 
 
         drive.setPoseEstimate(trajectory0.start());

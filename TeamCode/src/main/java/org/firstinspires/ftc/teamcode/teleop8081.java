@@ -72,6 +72,13 @@ public class teleop8081 extends OpMode {
             grabber.armToInside();
         }
 
+        if(gamepad2.a){
+            grabber.clamp_on();
+        }
+        if(gamepad2.b){
+            grabber.clamp_off();
+        }
+
         slide_position += PARAMS.slide_speed * dt * (gamepad1.right_bumper ? 1.0 : 0.0);
         slide_position -= PARAMS.slide_speed * dt * (gamepad1.left_bumper ? 1.0 : 0.0);
         slide_position = clamp(slide_position, 0.0, 1.0);
@@ -86,10 +93,10 @@ public class teleop8081 extends OpMode {
             elevator.setHeight(1400);
         } else if (gamepad1.dpad_right) {
             Elevator.PARAMS.elevator_enable_auto_reset = true;
-            elevator.setHeight(2000);
+            elevator.setHeight(1850);
         } else if (gamepad1.dpad_up) {
             Elevator.PARAMS.elevator_enable_auto_reset = true;
-            elevator.setHeight(4000);
+            elevator.setHeight(4150);
         } else if (gamepad2.dpad_up) {
             Elevator.PARAMS.elevator_enable_auto_reset = false;
             elevator.setHeight(2000);

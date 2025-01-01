@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autos;
+package org.firstinspires.ftc.teamcode.oldautos;
 
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
 
@@ -21,8 +21,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "2 part specimen and push red")
-public class twopartspecimenpushRed extends LinearOpMode {
+@Autonomous(name = "2 sample box")
+public class twosamplebox extends LinearOpMode {
     private Elevator elevator;
     private Grabber grabber;
 
@@ -34,41 +34,34 @@ public class twopartspecimenpushRed extends LinearOpMode {
         elevator = new Elevator(hardwareMap);
         grabber = new Grabber(hardwareMap);
 
-
-        TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(9.32, -62.90, Math.toRadians(90.00)))
+        TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(-39.56, -62.50, Math.toRadians(90.00)))
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(30, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineTo(new Vector2d(3.01, -32.25))
+                .lineToSplineHeading(new Pose2d(-47.83, -47.83, Math.toRadians(45.00)))
                 .build();
-
 
         TrajectorySequence traj1 = drive.trajectorySequenceBuilder(trajectory0.end())
-                .lineToLinearHeading(new Pose2d(1.62, -49.72, Math.toRadians(270.00)))
-                .lineTo(new Vector2d(37.03, -54.30))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(30, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
+                .lineToConstantHeading(new Vector2d(-58.0, -59.6))
                 .build();
 
-
         TrajectorySequence traj2 = drive.trajectorySequenceBuilder(traj1.end())
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(10, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
-                .lineTo(new Vector2d(37.03, -69.85))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(30, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
+                .lineToConstantHeading(new Vector2d(-47.83, -47.83))
                 .build();
 
         TrajectorySequence traj3 = drive.trajectorySequenceBuilder(traj2.end())
-                .lineTo(new Vector2d(7.52, -53.11))
-                .lineToLinearHeading(new Pose2d(10.67, -35.41, Math.toRadians(90.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(30, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
+                .lineToSplineHeading(new Pose2d(-47.83, -52.0, Math.toRadians(90)))
                 .build();
-
 
         TrajectorySequence traj4 = drive.trajectorySequenceBuilder(traj3.end())
-                .lineTo(new Vector2d(10.67, -32.25))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(3, 5, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
+                .forward(4)
                 .build();
 
-
         TrajectorySequence traj5 = drive.trajectorySequenceBuilder(traj4.end())
-                .lineTo(new Vector2d(0.00, -43.00))
-                .lineToSplineHeading(new Pose2d(41.00, -36.00, Math.toRadians(270.00)))
-                .lineTo(new Vector2d(45.00, -8.00))
-                .lineTo(new Vector2d(55.00, -62.00))
-                .lineTo(new Vector2d(40.00, -8.00))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(30, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(15))
+                .lineToSplineHeading(new Pose2d(-47.83, -47.83, Math.toRadians(45.00)))
                 .build();
 
 
@@ -78,14 +71,10 @@ public class twopartspecimenpushRed extends LinearOpMode {
         waitForStart();
 
         if (isStopRequested()) return;
-
         drive.followTrajectorySequenceAsync(trajectory0);
-
         int state = 0;
 
         Timing.Timer timer = new Timing.Timer(1);
-        Timing.Timer timer2 = new Timing.Timer(1 / 2);
-
 
         while (opModeIsActive() && !isStopRequested()) {
 
@@ -94,90 +83,85 @@ public class twopartspecimenpushRed extends LinearOpMode {
             drive.update();
 
             if (state == 0) {
-                elevator.setHeight(2000);
-                if (elevator.atTarget() && !drive.isBusy()) {
-                    elevator.setHeight(1500);
+                if (!drive.isBusy()) {
                     state++;
-
-
+                    elevator.setHeight(4000);
                 }
-
             } else if (state == 1) {
                 if (elevator.atTarget()) {
-                    drive.followTrajectorySequenceAsync(traj1);
-                    elevator.setHeight(0);
                     state++;
-                    timer.start();
+                    drive.followTrajectorySequenceAsync(traj1);
                 }
             } else if (state == 2) {
-                if (!drive.isBusy() && timer.done()) {
+
+                if (!drive.isBusy()) {
+                    grabber.intakeOut();
                     drive.followTrajectorySequenceAsync(traj2);
                     state++;
                 }
             } else if (state == 3) {
                 if (!drive.isBusy()) {
-                    elevator.setHeight(200);
+                    grabber.intakeStop();
                     state++;
-                    timer.start();
+                    elevator.setHeight(0);
+                    drive.followTrajectorySequenceAsync(traj3);
                 }
             } else if (state == 4) {
-                if (timer.done()) {
-                    drive.followTrajectorySequenceAsync(traj3);
+                if (!drive.isBusy() && elevator.atTarget()) {
                     state++;
+                    grabber.armToFloor();
+                    grabber.intakeIn();
                     timer.start();
                 }
             } else if (state == 5) {
-                if (!drive.isBusy() && timer.done()) {
-                    elevator.setHeight(2000);
-                    state++;
-                    timer.start();
-                }
-            }else if (state == 6) {
-                if (elevator.atTarget() && timer.done()) {
+                if (timer.done()) {
+                    grabber.slideToPercent(0.5);
                     drive.followTrajectorySequenceAsync(traj4);
                     state++;
                     timer.start();
                 }
-           } else if (state == 7) {
-              if (!drive.isBusy() && timer.done()) {
-                  elevator.setHeight(1500);
-                  timer.start();
-                  state++;
-               }
-            } else if (state == 8) {
-                if (timer.done()) {
-                    drive.followTrajectorySequenceAsync(traj5);
+            } else if (state == 6) {
+                if (!drive.isBusy() && timer.done()) {
                     state++;
+                    grabber.armToInside();
+                    grabber.intakeStop();
+                    grabber.slideToInside();
                     timer.start();
                 }
-            }else if (state == 9) {
+            } else if (state == 7) {
                 if (timer.done()) {
+                    state++;
+                    drive.followTrajectorySequenceAsync(traj5);
+                    elevator.setHeight(4000);
+                }
+            } else if (state == 8) {
+                if (!drive.isBusy()) {
+                    state++;
+                    drive.followTrajectorySequenceAsync(traj1);
+                }
+            } else if (state == 9) {
+                if (!drive.isBusy()) {
+                    grabber.intakeOut();
+                    timer.start();
+                    state++;
+                }
+            } else if (state == 10) {
+                if (timer.done()) {
+                    state++;
+                    drive.followTrajectorySequenceAsync(traj2);
+                }
+            } else if (state == 11) {
+                if (!drive.isBusy()) {
+                    grabber.intakeStop();
                     elevator.setHeight(0);
+                    state++;
+                }
+            } else if (state == 12) {
+                if (elevator.atTarget(500)) {
+                    state++;
+                    drive.followTrajectorySequenceAsync(traj1);
                 }
             }
-
-//            } else if (state == 9) {
-//                if (!drive.isBusy()) {
-//                    grabber.intakeOut();
-//                    timer.start();
-//                    state++;
-//                }
-//            } else if (state == 10) {
-//                if (timer.done()) {
-//                    state++;
-//                    drive.followTrajectorySequenceAsync(traj2);
-//                }
-//            } else if (state == 11) {
-//                if (!drive.isBusy()) {
-//                    grabber.intakeStop();
-//                    elevator.setHeight(0);
-//                    state++;
-//                }
-//            } else if (state == 12) {
-//                if (elevator.atTarget(500)) {
-//                    state++;
-//                    drive.followTrajectorySequenceAsync(traj1);
-//                }
 
 
             Pose2d poseEstimate = drive.getPoseEstimate();
@@ -190,6 +174,3 @@ public class twopartspecimenpushRed extends LinearOpMode {
         }
     }
 }
-
-
-
