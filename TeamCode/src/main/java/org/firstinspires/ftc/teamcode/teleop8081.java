@@ -84,7 +84,6 @@ public class teleop8081 extends OpMode {
         slide_position = clamp(slide_position, 0.0, 1.0);
         grabber.slideToPercent(slide_position);
 
-
         if (gamepad1.dpad_down) {
             Elevator.PARAMS.elevator_enable_auto_reset = true;
             elevator.setHeight(0);
@@ -129,6 +128,8 @@ public class teleop8081 extends OpMode {
         telemetry.addData("y", poseEstimate.getY());
         telemetry.addData("heading", poseEstimate.getHeading());
         telemetry.addData("whats up brother", elevator.servo_hook_left.getPosition());
+        telemetry.addData("arm right", grabber.servo_arm_right.getPosition());
+        telemetry.addData("arm left", grabber.servo_arm_left.getPosition());
         telemetry.update();
 
         packet.fieldOverlay().setStroke("#3F51B5");

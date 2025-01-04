@@ -168,11 +168,11 @@ public class Grabber {
     }
 
     public static class Params {
-        public double pose_arm_inside = 0.95;
+        public double pose_arm_inside = 0.92; //.935
 
         public double pose_arm_prepare_hook = 0.45;
         public double pose_arm_hook = 0.68  ;
-        public double pose_arm_floor = 0.30;
+        public double pose_arm_floor = 0.31;  //.30
 
         public double pose_viper_on = 0;
 

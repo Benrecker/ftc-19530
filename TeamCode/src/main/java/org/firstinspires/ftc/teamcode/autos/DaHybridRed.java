@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "4 box butter red")
-public class fourboxbutterRed extends LinearOpMode {
+@Autonomous(name = "hybrid red" )
+public class DaHybridRed extends LinearOpMode {
     private Elevator elevator;
     private Grabber grabber;
 
@@ -34,7 +34,6 @@ public class fourboxbutterRed extends LinearOpMode {
         grabber = new Grabber(hardwareMap);
 
 
-
         //WHEN GETTING TO COMP, COME HERE
         //run auto and if things need to be changed just go the traj that needs to be changed.
         //If its not driving far enough on the drop, go to "trajdriveforawrd" and change the distance.
@@ -44,62 +43,92 @@ public class fourboxbutterRed extends LinearOpMode {
         //corner to left is (-62,-62). if you need to change x, y vaules
 
 
-
-
-
         //in front of box traj
 
-        TrajectorySequence dropoff = drive.trajectorySequenceBuilder(new Pose2d(-41, -63, Math.toRadians(90.00)))
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(10))
-                .lineToLinearHeading(new Pose2d(-56.50, -56.50, Math.toRadians(44.50)))
-                .build();
+        TrajectorySequence drivesubhigh = drive.trajectorySequenceBuilder(new Pose2d(-15.00, -64.00, Math.toRadians(180.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 15, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(17))
+                .lineToLinearHeading(new Pose2d(-14.00, -33.00, Math.toRadians(190.00)))
+                .build(); //raise 1900
 
-        TrajectorySequence pickupB1 = drive.trajectorySequenceBuilder(dropoff.end())
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
-                .lineToLinearHeading(new Pose2d(-59.00, -48.00, Math.toRadians(56)))
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 15, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(55))
-                .lineToLinearHeading(new Pose2d(-59.00, -39.00, Math.toRadians(65)))
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 20, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(25))
-                .lineToLinearHeading(new Pose2d(-56.50, -56.50, Math.toRadians(44.00)))
-                .build();
+//drop 150
+
+        TrajectorySequence pickupB1 = drive.trajectorySequenceBuilder(drivesubhigh.end())
+//                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 20, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
+//                .lineToLinearHeading(new Pose2d(-22.00, -40.00, Math.toRadians(155.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(40))
+                .lineToLinearHeading(new Pose2d(-38.00, -34.00, Math.toRadians(152.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(40))
+                .lineToLinearHeading(new Pose2d(-55.80, -55.80, Math.toRadians(45.00)))
+                .build(); //delay .5 sec then drop 0
+
+//grab block 1
+
+//        TrajectorySequence dropoffB1 = drive.trajectorySequenceBuilder(pickupB1.end())
+//                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 10, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(40))
+//                .lineToLinearHeading(new Pose2d(-55.80, -55.80, Math.toRadians(45.00)))
+//                .build(); //run intake 10%
+
+//raise 4200
+//drop block
 
         TrajectorySequence pickupB2 = drive.trajectorySequenceBuilder(pickupB1.end())
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
-                .lineToLinearHeading(new Pose2d(-60.00, -48.00, Math.toRadians(89.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(40))
+                .lineToLinearHeading(new Pose2d(-59.00, -48.00, Math.toRadians(89.00)))
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 15, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(55))
-                .lineToLinearHeading(new Pose2d(-60.00, -39.00, Math.toRadians(89.00)))
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 20, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(25))
-                .lineToLinearHeading(new Pose2d(-56.50, -56.50, Math.toRadians(43.50)))
-                .build();
+                .lineToLinearHeading(new Pose2d(-59.00, -39.00, Math.toRadians(89.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 20, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
+                .lineToLinearHeading(new Pose2d(-55.80, -55.80, Math.toRadians(45.00)))
+                .build();//drop to 0
+
+//grab block 2
+
+//        TrajectorySequence dropoffB2 = drive.trajectorySequenceBuilder(pickupB2.end())
+//                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 10, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(20))
+//                .lineToLinearHeading(new Pose2d(-55.80, -55.80, Math.toRadians(45.00)))
+//                .build(); //run intake 10%
+
+//raise 4200
+//drop block
 
         TrajectorySequence pickupB3 = drive.trajectorySequenceBuilder(pickupB2.end())
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
-                .lineToLinearHeading(new Pose2d(-59.00, -48.00, Math.toRadians(127.00)))
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 15, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(55))
-                .lineToLinearHeading(new Pose2d(-59.00, -39.00, Math.toRadians(127.00)))
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 20, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(25))
-                .lineToLinearHeading(new Pose2d(-58.20, -56.50, Math.toRadians(43.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(20))
+                .lineToLinearHeading(new Pose2d(-59.00, -48.00, Math.toRadians(124.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 15, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
+                .lineToLinearHeading(new Pose2d(-59.00, -39.00, Math.toRadians(124.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 20, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
+                .lineToLinearHeading(new Pose2d(-56.80, -55.20, Math.toRadians(45.00)))
                 .build();
+
+//grab block 3
+
+//        TrajectorySequence dropoffB3 = drive.trajectorySequenceBuilder(pickupB3.end())
+//                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 10, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(20))
+//                .lineToLinearHeading(new Pose2d(-56.80, -55.20, Math.toRadians(45.00)))
+//                .build(); //run intake 10%
+
+//raise 4200
+//drop block
 
         TrajectorySequence park = drive.trajectorySequenceBuilder(pickupB3.end())
-                .lineToLinearHeading(new Pose2d(-34.50, -19.50, Math.toRadians(12.00)))
+                .lineToLinearHeading(new Pose2d(-34.00, -19.50, Math.toRadians(12.00)))
                 .build();
 
+//extend slide to touch bar
 
-        drive.setPoseEstimate(dropoff.start());
+
+        drive.setPoseEstimate(drivesubhigh.start());
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-        drive.followTrajectorySequenceAsync(dropoff);
+        drive.followTrajectorySequenceAsync(drivesubhigh);
 
         int state = 0;
 
         Timing.Timer timer = new Timing.Timer(1);
         Timing.Timer timer2 = new Timing.Timer(1 / 2);
-        Timing.Timer timer3 = new Timing.Timer(3/2);
-
+        Timing.Timer timer3 = new Timing.Timer(3 / 2);
 
 
         while (opModeIsActive() && !isStopRequested()) {
@@ -116,21 +145,21 @@ public class fourboxbutterRed extends LinearOpMode {
             drive.update();
 
 
-            //first block in box
+            //first speicmen to the sub
             if (state == 0) {
-                elevator.setHeight(4150);
+                elevator.setHeight(1650);
                 if (!drive.isBusy()) {
                     state++;
                 }
             } else if (state == 1) {
                 if (elevator.atTarget() && !drive.isBusy()) {
-                    grabber.intakeOut();
+                    elevator.setHeight(1150);
                     state++;
-                    timer.start();
+
                 }
                 //drops the speicmen and drives to B1
             } else if (state == 2) {
-                if (timer.done() && elevator.atTarget(1500)) {
+                if (elevator.atTarget()) {
                     drive.followTrajectorySequenceAsync(pickupB1);
                     elevator.setHeight(0);
                     grabber.armToFloor();
@@ -139,7 +168,7 @@ public class fourboxbutterRed extends LinearOpMode {
                 }
             } else if (state == 3) {
                 //intake B1
-                state++;
+                    state++;
 
             } else if (state == 4) {
                 state++;
@@ -165,7 +194,7 @@ public class fourboxbutterRed extends LinearOpMode {
                 }
             } else if (state == 8) {
                 //drive to intake B2
-                if (elevator.atTarget(2000)) {
+                if (elevator.atTarget(1000)) {
                     grabber.intakeIn();
                     drive.followTrajectorySequenceAsync(pickupB2);
                     state++;
@@ -247,6 +276,7 @@ public class fourboxbutterRed extends LinearOpMode {
         }
     }
 }
+
 
 
 
