@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "new ROC HAWK KILLA" )
-public class DaSpecRed extends LinearOpMode {
+@Autonomous(name = "3 spec blue" )
+public class ThreeSpecimenBlue extends LinearOpMode {
     private Elevator elevator;
     private Grabber grabber;
 
@@ -239,93 +239,87 @@ public class DaSpecRed extends LinearOpMode {
             } else if (state == 9) {
                 if (!drive.isBusy()) {
                     grabber.clamp_off();
+                    timer.start();//here
+                    state++;
+                }
+            } else if (state == 10) {
+                if (timer.done()) {
+                    drive.followTrajectorySequenceAsync(dropspec1);
+                    elevator.setHeight(1850);
+                    state++;
+                }
+            } else if (state == 11) {
+                if (!drive.isBusy() && elevator.atTarget()) {
+                    elevator.setHeight(1451);
+                    grabber.clamp_on();
+                    state++;
+                }
+            } else if (state == 12) {
+                if (elevator.atTarget(200)) {
+                    drive.followTrajectorySequenceAsync(pickupspec2);
+                    elevator.setHeight(0);
+                    state++;
+                }
+            } else if (state == 13) {
+                if (!drive.isBusy()) {
+                    drive.followTrajectorySequenceAsync(driveforward2);
+                    state++;
+                }
+            } else if (state == 14) {
+                if (!drive.isBusy()) {
+                    grabber.clamp_off();
                     timer.start();
                     state++;
                 }
-//            } else if (state == 10) {
-//                if (elevator.atTarget()) {
-//                    drive.followTrajectorySequenceAsync(pickupspec2);
-//                    elevator.setHeight(0);
-//                    state++;
-//                }
-//            } else if (state == 11) {
-//                if (!drive.isBusy()) {
-//                    drive.followTrajectorySequenceAsync(driveforward2);
+            } else if (state == 15) {
+                if (timer.done()) {
+                    drive.followTrajectorySequenceAsync(dropspec2);
+                    elevator.setHeight(1850);
+                    state++;
+                }
+            } else if (state == 16) {
+                if (!drive.isBusy()) {
+                    elevator.setHeight(1451);
+                    state++;
+                }
+            } else if (state == 17) {
+                if (elevator.atTarget(200)) {
+                    elevator.setHeight(0);
+                    drive.followTrajectorySequenceAsync(park);
+                    state++;
+                }
+//                } else if (state == 18) {
+//                    if (elevator.atTarget()) {
+//                        drive.followTrajectorySequenceAsync(pickupspec4);
+//                        drive.followTrajectorySequenceAsync(driveforward);
+//                        elevator.setHeight(0);
+//                        grabber.clamp_on();
+//                        state++;
+//                    }
+//                } else if (state == 19) {
 //                    if (!drive.isBusy()) {
 //                        grabber.clamp_off();
 //                        state++;
 //                        timer.start();
 //                    }
-//                }
-//            } else if (state == 12) {
-//                if (timer.done()) {
-//                    drive.followTrajectorySequenceAsync(dropspec2);
-//                    elevator.setHeight(1850);
-//                    state++;
-//                }
-//            } else if (state == 13) {
-//                if (!drive.isBusy()) {
-//                    elevator.setHeight(1450);
-//                    state++;
-//                }
-//            } else if (state == 14) {
-//                if (elevator.atTarget()) {
-//                    drive.followTrajectorySequenceAsync(pickupspec2);
-//                    elevator.setHeight(0);
-//                    state++;
-//                }
-//            } else if (state == 15) {
-//                if (!drive.isBusy()) {
-//                    drive.followTrajectorySequenceAsync(driveforward3);
-//                    if (!drive.isBusy()) {
-//                        grabber.clamp_off();
+//                } else if (state == 20) {
+//                    if (timer.done()) {
+//                        drive.followTrajectorySequenceAsync(dropspec4);
+//                        elevator.setHeight(1850);
 //                        state++;
-//                        timer.start();
 //                    }
-//                }
-//            } else if (state == 16) {
-//                if (timer.done()) {
-//                    drive.followTrajectorySequenceAsync(dropspec3);
-//                    elevator.setHeight(1850);
-//                    state++;
-//                }
-//            } else if (state == 17) {
-//                if (!drive.isBusy()) {
-//                    elevator.setHeight(1450);
-//                    state++;
-//                }
-                //else if (state == 18) {
-//                if (elevator.atTarget()) {
-//                    drive.followTrajectorySequenceAsync(pickupspec4);
-//                    drive.followTrajectorySequenceAsync(driveforward);
-//                    elevator.setHeight(0);
-//                    grabber.clamp_on();
-//                    state++;
-//                }
-//            } else if (state == 19) {
-//                if (!drive.isBusy()) {
-//                    grabber.clamp_off();
-//                    state++;
-//                    timer.start();
-//                }
-//            } else if (state == 20) {
-//                if (timer.done()) {
-//                    drive.followTrajectorySequenceAsync(dropspec4);
-//                    elevator.setHeight(1850);
-//                    state++;
-//                }
-//            } else if (state == 21) {
-//                if (!drive.isBusy()) {
-//                    elevator.setHeight(1450);
-//                    state++;
-//            } else if (state == 18) {
-//                if (elevator.atTarget()) {
-//                    drive.followTrajectorySequenceAsync(park);
-//                    elevator.setHeight(0);
-//                    grabber.clamp_on();
-//                    state++;
-//                }
-//            }
+//                } else if (state == 21) {
+//                    if (!drive.isBusy()) {
+//                        elevator.setHeight(1450);
+//                        state++;
+//                    } else if (state == 18) {
+//                        if (elevator.atTarget()) {
+//                            drive.followTrajectorySequenceAsync(park);
+//                            elevator.setHeight(0);
+//                            grabber.clamp_on();
+//                            state++;
+//                        }
+//                    }
             }
         }
     }
