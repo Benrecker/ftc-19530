@@ -203,10 +203,10 @@ public class Elevator {
 
         public double target_height = 0.0;
 
-        public double hook_outside = 0.025;
+        public double hook_outside = 0.15;
         public double hook_inside = 1.0;
-        public double hook_idle = 0.375;
-        public double hook_target = hook_outside;
+        public double hook_idle = 0.05;
+        public double hook_target = hook_idle;
 
         public boolean elevator_enable_auto_reset = true;
 

@@ -66,7 +66,7 @@ public class Grabber {
     ////////////////////////////////////////////////////////////////////////
 
     public void intakeOut() {
-        PARAMS.intake_power = 0.5;
+        PARAMS.intake_power = 0.55;
     }
 
     public void intakeStop() {
@@ -168,7 +168,7 @@ public class Grabber {
     }
 
     public static class Params {
-        public double pose_arm_inside = 0.92; //.935
+        public double pose_arm_inside = 0.9; //.935
 
         public double pose_arm_prepare_hook = 0.45;
         public double pose_arm_hook = 0.68  ;

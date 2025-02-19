@@ -55,10 +55,10 @@ public class DaHybridRed extends LinearOpMode {
         TrajectorySequence pickupB1 = drive.trajectorySequenceBuilder(drivesubhigh.end())
 //                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 20, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
 //                .lineToLinearHeading(new Pose2d(-22.00, -40.00, Math.toRadians(155.00)))
-                .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(40))
-                .lineToLinearHeading(new Pose2d(-38.00, -34.00, Math.toRadians(152.00)))
+                .setConstraints(SampleMecanumDrive.getVelocityConstraint(45, 100, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(40))
+                .lineToLinearHeading(new Pose2d(-38.00, -34.00, Math.toRadians(151.00)))
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(40))
-                .lineToLinearHeading(new Pose2d(-55.80, -55.80, Math.toRadians(45.00)))
+                .lineToLinearHeading(new Pose2d(-56.50, -56.50, Math.toRadians(44.50)))
                 .build(); //delay .5 sec then drop 0
 
 //grab block 1
@@ -73,11 +73,11 @@ public class DaHybridRed extends LinearOpMode {
 
         TrajectorySequence pickupB2 = drive.trajectorySequenceBuilder(pickupB1.end())
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 25, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(40))
-                .lineToLinearHeading(new Pose2d(-59.00, -48.00, Math.toRadians(89.00)))
+                .lineToLinearHeading(new Pose2d(-60.00, -48.00, Math.toRadians(89.00)))
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 15, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(55))
-                .lineToLinearHeading(new Pose2d(-59.00, -39.00, Math.toRadians(89.00)))
+                .lineToLinearHeading(new Pose2d(-60.00, -38.00, Math.toRadians(86.00)))
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 20, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
-                .lineToLinearHeading(new Pose2d(-55.80, -55.80, Math.toRadians(45.00)))
+                .lineToLinearHeading(new Pose2d(-56.50, -56.50, Math.toRadians(44.50)))
                 .build();//drop to 0
 
 //grab block 2
@@ -94,9 +94,9 @@ public class DaHybridRed extends LinearOpMode {
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 30, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(20))
                 .lineToLinearHeading(new Pose2d(-59.00, -48.00, Math.toRadians(124.00)))
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(50, 15, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
-                .lineToLinearHeading(new Pose2d(-59.00, -39.00, Math.toRadians(124.00)))
+                .lineToLinearHeading(new Pose2d(-59.00, -37.00, Math.toRadians(124.00)))
                 .setConstraints(SampleMecanumDrive.getVelocityConstraint(55, 20, TRACK_WIDTH), SampleMecanumDrive.getAccelerationConstraint(30))
-                .lineToLinearHeading(new Pose2d(-56.80, -55.20, Math.toRadians(45.00)))
+                .lineToLinearHeading(new Pose2d(-56.80, -56.00, Math.toRadians(44.00)))
                 .build();
 
 //grab block 3

@@ -43,7 +43,7 @@ public class teleop8081 extends OpMode {
     @Override
     public void loop() {
         if (!ranOnce) {
-            elevator.setHookOutside();
+            elevator.setHookIdle();
             ranOnce = true;
         }
 
@@ -100,7 +100,7 @@ public class teleop8081 extends OpMode {
             elevator.setHeight(4150);
         } else if (gamepad2.dpad_up) {
             Elevator.PARAMS.elevator_enable_auto_reset = false;
-            elevator.setHeight(2000);
+            elevator.setHeight(2075);
             elevator.setHookOutside();
         } else if (gamepad2.dpad_right) {
             Elevator.PARAMS.elevator_enable_auto_reset = false;
